@@ -8,11 +8,14 @@
 import Foundation
 
 struct ContentItem: Codable {
+    let elementType: String?
     let target: String?
     let title: String?
     
     init(target: String?,
-         title: String?) {
+         title: String?,
+         elementType: String?) {
+        self.elementType = elementType
         self.target = target
         self.title = title
     }

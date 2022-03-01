@@ -7,10 +7,6 @@
 
 import Foundation
 
-public struct ExploreDataResponse:Decodable {
-    var results:[ExploreDataItem]
-}
-
 public struct ExploreDataItem: Decodable {
     let title: String?
     let backgroundImage: String?
