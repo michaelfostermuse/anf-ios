@@ -65,7 +65,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ipc-kA-Pkx" kind="show" id="tov-cd-b1I"/>
+                                    <segue destination="ipc-kA-Pkx" kind="show" identifier="explore-data-item-selected-segue" id="tov-cd-b1I"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="-878" y="54"/>
         </scene>
-        <!--View Controller-->
+        <!--Explore Data Item Detail View Controller-->
         <scene sceneID="HXk-Kx-hko">
             <objects>
-                <viewController id="ipc-kA-Pkx" sceneMemberID="viewController">
+                <viewController id="ipc-kA-Pkx" customClass="ExploreDataItemDetailViewController" customModule="ANF_Code_Test" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fdA-Pp-sBV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
