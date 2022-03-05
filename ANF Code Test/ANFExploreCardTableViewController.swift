@@ -18,6 +18,8 @@ class ANFExploreCardTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         let router = Router()
         router.getExploreData() { [weak self] result in
             switch result {
@@ -43,10 +45,8 @@ class ANFExploreCardTableViewController: UITableViewController {
 
         if let imageView = cell.viewWithTag(2) as? UIImageView,
            let backgroundImageUrl = exploreData[indexPath.row].backgroundImage {
-//           let image = UIImage(named: name) {
-//            imageView.image = image
+            imageView.downloadImage(from: backgroundImageUrl)
         }
-        
         return cell
     }
     

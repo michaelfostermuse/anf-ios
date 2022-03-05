@@ -10,6 +10,15 @@ import UIKit
 
 class ExploreDataItemDetailViewController: UIViewController {
     
+    var contentView: UIView!
+    var scrollView: UIScrollView!
+    var detailTitle: UILabel!
+    var detailDescription: UILabel!
+    //var detailImage: UIImageView!
+    var bottomDescription: UILabel!
+
+    var promoMessage: UILabel!
+    
     private var exploreDataSelectedItem: ExploreDataItem?
     var selectedItem: ExploreDataItem? {
         get {
@@ -17,6 +26,117 @@ class ExploreDataItemDetailViewController: UIViewController {
         }
         set {
             self.exploreDataSelectedItem = newValue
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        resetView()
+        setupScrollView()
+        buildImageView()
+    }
+    
+    private func resetView() {
+        for subview in view.subviews {
+            subview.removeFromSuperview()
+        }
+    }
+    
+    func setupScrollView(){
+        scrollView = UIScrollView()
+        contentView = UIView()
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
+    
+    private func buildImageView() {
+
+        let detailImageView = UIImageView(frame: CGRect(x: 0,y: 0, width: contentView.frame.size.width, height: 178.8))
+        detailImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(detailImageView)
+        detailImageView.centerXAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        detailImageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor).isActive = true
+        detailImageView.widthAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.widthAnchor).isActive = true
+
+        let router = Router()
+        guard let imageUrlString = self.selectedItem?.backgroundImage else { return }
+        
+        router.downloadImage(from: imageUrlString) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async() { [weak self] in
+                    detailImageView.contentMode = .scaleAspectFit
+                    detailImageView.image = image
+                    // set heightAnchor of imageView according to fetched image aspect ratio
+                    let aspectRatio = image.size.height / image.size.width
+                    guard let widthAnchor = self?.contentView.safeAreaLayoutGuide.widthAnchor else {
+                        return
+                    }
+                    detailImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: aspectRatio).isActive = true
+
+                    self?.buildViewCopy(imageView: detailImageView)
+                }
+            break
+               case .failure(let error):
+               print(error)
+                break;
+            }
+        }
+    }
+    
+    private func buildViewCopy(imageView: UIImageView) {
+
+        var anchorControl: AnyObject = imageView
+        if ( self.selectedItem?.topDescription != nil ) {
+            let detailDescription = Factory.makeLabel(text: self.selectedItem?.topDescription, fontSize: 13.0)
+            contentView.addSubview(detailDescription)
+            detailDescription.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            detailDescription.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 15).isActive = true
+            detailDescription.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            anchorControl = detailDescription
+        }
+        
+        if ( self.selectedItem?.title != nil ) {
+            let detailTitle = Factory.makeLabel(text: self.selectedItem?.title, fontSize: 17.0)
+            detailTitle.text = self.selectedItem?.title
+            contentView.addSubview(detailTitle)
+            detailTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            detailTitle.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 15).isActive = true
+            detailTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            anchorControl = detailTitle
+        }
+        
+        if ( self.selectedItem?.bottomDescription != nil ) {
+            let bottomDescription = Factory.makeLabel(text: self.selectedItem?.bottomDescription, fontSize: 11.0)
+            contentView.addSubview(bottomDescription)
+            bottomDescription.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            bottomDescription.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 15).isActive = true
+            bottomDescription.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            anchorControl = bottomDescription
+        }
+        
+        if ( self.selectedItem?.promoMessage != nil ) {
+            let promoMessage = Factory.makeLabel(text: self.selectedItem?.promoMessage, fontSize: 13.0)
+            contentView.addSubview(promoMessage)
+            promoMessage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            promoMessage.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 15).isActive = true
+            promoMessage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            anchorControl = promoMessage
         }
     }
 }
