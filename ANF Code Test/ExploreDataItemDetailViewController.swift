@@ -8,16 +8,15 @@
 import Foundation
 import UIKit
 
-class ExploreDataItemDetailViewController: UIViewController {
+class ExploreDataItemDetailViewController: UIViewController, UIScrollViewDelegate {
     
-    var contentView: UIView!
+    var contentView: UIStackView!
     var scrollView: UIScrollView!
-    var detailTitle: UILabel!
-    var detailDescription: UILabel!
-    //var detailImage: UIImageView!
-    var bottomDescription: UILabel!
-
-    var promoMessage: UILabel!
+    var anchorControl: AnyObject!
+//    var detailTitle: UILabel!
+//    var detailDescription: UILabel!
+//    var bottomDescription: UILabel!
+//    var promoMessage: UILabel!
     
     private var exploreDataSelectedItem: ExploreDataItem?
     var selectedItem: ExploreDataItem? {
@@ -28,6 +27,12 @@ class ExploreDataItemDetailViewController: UIViewController {
             self.exploreDataSelectedItem = newValue
         }
     }
+    
+    override func viewDidLayoutSubviews()
+      {
+       scrollView.delegate = self
+       scrollView.contentSize = CGSize(width:self.view.frame.size.width, height: 800) // set height according you
+      }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +50,10 @@ class ExploreDataItemDetailViewController: UIViewController {
     
     func setupScrollView(){
         scrollView = UIScrollView()
-        contentView = UIView()
+        contentView = UIStackView()
+        contentView.axis = .vertical
         
+        scrollView.delaysContentTouches = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -65,7 +72,7 @@ class ExploreDataItemDetailViewController: UIViewController {
     
     private func buildImageView() {
 
-        let detailImageView = UIImageView(frame: CGRect(x: 0,y: 0, width: contentView.frame.size.width, height: 178.8))
+        let detailImageView = UIImageView()
         detailImageView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(detailImageView)
@@ -90,6 +97,7 @@ class ExploreDataItemDetailViewController: UIViewController {
                     detailImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: aspectRatio).isActive = true
 
                     self?.buildViewCopy(imageView: detailImageView)
+                    self?.buildContentsList(contents: self?.selectedItem?.content)
                 }
             break
                case .failure(let error):
@@ -101,7 +109,7 @@ class ExploreDataItemDetailViewController: UIViewController {
     
     private func buildViewCopy(imageView: UIImageView) {
 
-        var anchorControl: AnyObject = imageView
+        anchorControl = imageView
         if ( self.selectedItem?.topDescription != nil ) {
             let detailDescription = Factory.makeLabel(text: self.selectedItem?.topDescription, fontSize: 13.0)
             contentView.addSubview(detailDescription)
@@ -122,12 +130,14 @@ class ExploreDataItemDetailViewController: UIViewController {
         }
         
         if ( self.selectedItem?.bottomDescription != nil ) {
-            let bottomDescription = Factory.makeLabel(text: self.selectedItem?.bottomDescription, fontSize: 11.0)
-            contentView.addSubview(bottomDescription)
-            bottomDescription.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-            bottomDescription.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 15).isActive = true
-            bottomDescription.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
-            anchorControl = bottomDescription
+            lazy var bottomDescriptionButton = Factory.makeButton(buttonText: self.selectedItem?.bottomDescription?.titleText(), fontSize: 11.0)
+            bottomDescriptionButton.addTarget(self, action: #selector(self.bottomSescriptionTapped( sender:)),for: .touchUpInside)
+            bottomDescriptionButton.tag = 999
+            contentView.addSubview(bottomDescriptionButton)
+            bottomDescriptionButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            bottomDescriptionButton.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 10).isActive = true
+            bottomDescriptionButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            anchorControl = bottomDescriptionButton
         }
         
         if ( self.selectedItem?.promoMessage != nil ) {
@@ -138,5 +148,46 @@ class ExploreDataItemDetailViewController: UIViewController {
             promoMessage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
             anchorControl = promoMessage
         }
+    }
+    
+    private func buildContentsList(contents: [ContentItem]? ) {
+        
+        guard let contentsArray = contents else {
+            return
+        }
+        var index = 0
+        for contentItem in contentsArray {
+            lazy var contentButton = Factory.makeButton(buttonText: contentItem.title, fontSize: 15.0)
+            contentButton.tag = index
+            index += 1
+            contentButton.addTarget(self, action: #selector(self.contentButtonTapped( sender:)),for: .touchUpInside)
+            
+            contentView.addSubview(contentButton)
+            contentButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            contentButton.topAnchor.constraint(equalTo: anchorControl.bottomAnchor, constant: 50).isActive = true
+            contentButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
+            contentButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -400).isActive = true
+            anchorControl = contentButton
+        }
+    }
+    
+    @objc
+    func contentButtonTapped( sender :UIButton)
+    {
+        guard let urlString = self.selectedItem?.content?[sender.tag].target,
+              let url = URL(string: urlString) else {
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    @objc
+    func bottomSescriptionTapped( sender: UIButton ) {
+        
+            guard let urlString = self.selectedItem?.bottomDescription?.urlString(),
+                  let url = URL(string: urlString) else {
+                return
+            }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

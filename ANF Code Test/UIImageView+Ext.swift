@@ -33,8 +33,6 @@ extension UIImageView {
     private func adjustSize(ratio: CGFloat) {
         if self.frame.width > self.frame.height {
             let newHeight = self.frame.width / ratio
-            //self?.heightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.widthAnchor, multiplier: 3.0/5.0).isActive = true
-
             self.frame.size = CGSize(width: self.frame.width, height: newHeight)
         }
         else{

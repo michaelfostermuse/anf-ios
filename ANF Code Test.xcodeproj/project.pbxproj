@@ -25,6 +25,8 @@
 		6A7D0EB127CEEF900085AF97 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D0EAF27CEEF900085AF97 /* UIImageView+Ext.swift */; };
 		6A7D0EB427D3C8AD0085AF97 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D0EB327D3C8AD0085AF97 /* Factory.swift */; };
 		6A7D0EB527D3C8AD0085AF97 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D0EB327D3C8AD0085AF97 /* Factory.swift */; };
+		6A7D0EB727D540B30085AF97 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D0EB627D540B30085AF97 /* String+Ext.swift */; };
+		6A7D0EB827D540B30085AF97 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D0EB627D540B30085AF97 /* String+Ext.swift */; };
 		6AD52F8827CBF83400EEA7EC /* ExploreDataItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD52F8727CBF83400EEA7EC /* ExploreDataItemDetailViewController.swift */; };
 		6AD52F8A27CC1BB800EEA7EC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD52F8927CC1BB800EEA7EC /* Router.swift */; };
 		6AD52F8B27CC1BB800EEA7EC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD52F8927CC1BB800EEA7EC /* Router.swift */; };
@@ -58,6 +60,7 @@
 		6A7D0EAC27CE60870085AF97 /* ContentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentItem.swift; sourceTree = "<group>"; };
 		6A7D0EAF27CEEF900085AF97 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		6A7D0EB327D3C8AD0085AF97 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		6A7D0EB627D540B30085AF97 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		6AD52F8727CBF83400EEA7EC /* ExploreDataItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDataItemDetailViewController.swift; sourceTree = "<group>"; };
 		6AD52F8927CC1BB800EEA7EC /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +119,7 @@
 				6A7D0EAC27CE60870085AF97 /* ContentItem.swift */,
 				6A7D0EAF27CEEF900085AF97 /* UIImageView+Ext.swift */,
 				6A7D0EB327D3C8AD0085AF97 /* Factory.swift */,
+				6A7D0EB627D540B30085AF97 /* String+Ext.swift */,
 			);
 			path = "ANF Code Test";
 			sourceTree = "<group>";
@@ -240,6 +244,7 @@
 				6AD52F8827CBF83400EEA7EC /* ExploreDataItemDetailViewController.swift in Sources */,
 				6A7D0EAD27CE60870085AF97 /* ContentItem.swift in Sources */,
 				6A7D0EAA27CD9D820085AF97 /* ExploreDataConfig.swift in Sources */,
+				6A7D0EB727D540B30085AF97 /* String+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +258,7 @@
 				6A7D0EAE27CE60870085AF97 /* ContentItem.swift in Sources */,
 				6AD52F8B27CC1BB800EEA7EC /* Router.swift in Sources */,
 				3E727EEA2672708B006C11AC /* ANFExploreCardTableViewControllerTests.swift in Sources */,
+				6A7D0EB827D540B30085AF97 /* String+Ext.swift in Sources */,
 				6A7D0EB527D3C8AD0085AF97 /* Factory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

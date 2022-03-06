@@ -64,9 +64,6 @@ class Router {
                     completion(.failure("Image download config error."))
                     return
                 }
-       //     DispatchQueue.main.async() { [weak self] in
-                
-            //let size = self.processImageDimensions(width: image.size.width, height: image.size.height)
             completion(.success(image: image))
         }.resume()
     }
